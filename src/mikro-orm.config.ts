@@ -14,7 +14,7 @@ const config = {
   entitiesTs: ['src/**/*.entity.ts'],
   dbName: process.env.DBNAME || 'postgres',
   type: 'postgresql',
-  host: 'https://vacaytoday.herokuapp.com',
+  host: 'vacaytoday.herokuapp.com',
   port: process.env.DBPORT || 5432,
   highlighter: new SqlHighlighter(),
   debug: process.env.NODE_ENV !== 'production',
