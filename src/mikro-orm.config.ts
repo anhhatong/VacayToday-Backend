@@ -21,6 +21,8 @@ const config = {
   logger: logger.log.bind(logger),
   password: process.env.DBPASSWORD || 'maddietong!',
   metadataProvider: TsMorphMetadataProvider,
+  url: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
   migrations: {
     tableName: 'mikro_orm_migrations', // name of database table with log of executed transactions
     path: './migrations', // path to the folder with migrations
