@@ -3,7 +3,7 @@
  * doing database calls using ORM
  * Services are also known as Providers
  */
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@mikro-orm/nestjs';
 
 import { User } from './entities/user.entity';
@@ -28,8 +28,13 @@ export class UserService {
         createUserDto.profile_image,
       );
       await this.userRepository.persistAndFlush(user);
-
       return user;
     }
+  }
+
+  async getUser(userId: number): Promise<User> {
+    const user: User = await this.userRepository.findOne({ user_id: userId });
+    if (!user) throw new NotFoundException('User Not Found!');
+    return user;
   }
 }
