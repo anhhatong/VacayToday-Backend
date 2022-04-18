@@ -12,14 +12,14 @@ const logger = new Logger('MikroORM');
 const config = {
   entities: ['dist/**/*.entity.js'],
   entitiesTs: ['src/**/*.entity.ts'],
-  dbName: process.env.DBNAME || 'vacaytoday',
+  dbName: process.env.DBNAME || 'postgres',
   type: 'postgresql',
   host: 'localhost',
   port: process.env.DBPORT || 5432,
   highlighter: new SqlHighlighter(),
   debug: true,
   logger: logger.log.bind(logger),
-  password: process.env.DBPASSWORD || 'postgres',
+  password: process.env.DBPASSWORD || 'maddietong!',
   metadataProvider: TsMorphMetadataProvider,
   migrations: {
     tableName: 'mikro_orm_migrations', // name of database table with log of executed transactions
