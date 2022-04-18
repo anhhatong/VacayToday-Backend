@@ -3,7 +3,11 @@
  * doing database calls using ORM
  * Services are also known as Providers
  */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import { InjectRepository } from '@mikro-orm/nestjs';
 
 import { User } from './entities/user.entity';
@@ -20,16 +24,17 @@ export class UserService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     const username = createUserDto.username;
     const alreadyCreated = await this.userRepository.findOne({ username });
-
-    if (!alreadyCreated) {
-      const user = new User(
-        createUserDto.username,
-        createUserDto.password,
-        createUserDto.profile_image,
+    if (alreadyCreated)
+      throw new ConflictException(
+        'Username is already existed. Please sign up with a different username.',
       );
-      await this.userRepository.persistAndFlush(user);
-      return user;
-    }
+    const user = new User(
+      createUserDto.username,
+      createUserDto.password,
+      createUserDto.profile_image,
+    );
+    await this.userRepository.persistAndFlush(user);
+    return user;
   }
 
   async getUser(userId: number): Promise<User> {
