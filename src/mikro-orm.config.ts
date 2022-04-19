@@ -15,17 +15,19 @@ const config = {
   entitiesTs: ['src/**/*.entity.ts'],
   dbName: env.prod.DBNAME,
   type: 'postgresql',
-  // host: env.prod.HOST,
-  // port: env.prod.PORT,
+  host: env.prod.HOST,
+  port: env.prod.PORT,
   highlighter: new SqlHighlighter(),
   debug: true,
   logger: logger.log.bind(logger),
-  clientUrl:
-    'postgres://rloftexmrgvvwb:459f8596bc0090b2ec09a5e2dddac676a5e757e96e2523ae3ef0f849e67e33bf@ec2-52-54-212-232.compute-1.amazonaws.com:5432/d2o11c8cu6a030',
-  // user: 'rloftexmrgvvwb',
-  // password: env.prod.DBPASSWORD,
+  user: 'rloftexmrgvvwb',
+  password: env.prod.DBPASSWORD,
   metadataProvider: TsMorphMetadataProvider,
-  ssl: { rejectUnauthorized: false },
+  driverOptions: {
+    connection: {
+      ssl: { require: true, rejectUnauthorized: false },
+    },
+  },
   migrations: {
     tableName: 'mikro_orm_migrations', // name of database table with log of executed transactions
     path: './migrations', // path to the folder with migrations
