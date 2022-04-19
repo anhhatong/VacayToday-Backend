@@ -20,6 +20,7 @@ const config = {
   highlighter: new SqlHighlighter(),
   debug: true,
   logger: logger.log.bind(logger),
+  user: 'rloftexmrgvvwb',
   password: env.prod.DBPASSWORD,
   metadataProvider: TsMorphMetadataProvider,
   ssl: { rejectUnauthorized: false },
