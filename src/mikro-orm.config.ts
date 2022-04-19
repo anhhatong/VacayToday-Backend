@@ -7,21 +7,21 @@ import { Logger } from '@nestjs/common';
 import { Options } from '@mikro-orm/core';
 import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
+import env from './env';
 
 const logger = new Logger('MikroORM');
 const config = {
   entities: ['dist/**/*.entity.js'],
   entitiesTs: ['src/**/*.entity.ts'],
-  dbName: process.env.DBNAME || 'postgres',
+  dbName: env.local.DBNAME,
   type: 'postgresql',
-  host: 'vacaytoday.herokuapp.com',
-  port: process.env.DBPORT || 5432,
+  host: env.local.HOST,
+  port: env.local.PORT,
   highlighter: new SqlHighlighter(),
-  debug: process.env.NODE_ENV !== 'production',
+  debug: true,
   logger: logger.log.bind(logger),
-  password: process.env.DBPASSWORD || 'maddietong!',
+  password: env.local.DBPASSWORD,
   metadataProvider: TsMorphMetadataProvider,
-  url: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false },
   migrations: {
     tableName: 'mikro_orm_migrations', // name of database table with log of executed transactions
