@@ -13,14 +13,14 @@ const logger = new Logger('MikroORM');
 const config = {
   entities: ['dist/**/*.entity.js'],
   entitiesTs: ['src/**/*.entity.ts'],
-  dbName: env.local.DBNAME,
+  dbName: env.prod.DBNAME,
   type: 'postgresql',
-  host: env.local.HOST,
-  port: env.local.PORT,
+  host: env.prod.HOST,
+  port: env.prod.PORT,
   highlighter: new SqlHighlighter(),
   debug: true,
   logger: logger.log.bind(logger),
-  password: env.local.DBPASSWORD,
+  password: env.prod.DBPASSWORD,
   metadataProvider: TsMorphMetadataProvider,
   ssl: { rejectUnauthorized: false },
   migrations: {
