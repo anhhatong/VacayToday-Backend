@@ -13,7 +13,7 @@ const logger = new Logger('MikroORM');
 const config = {
   entities: ['dist/**/*.entity.js'],
   entitiesTs: ['src/**/*.entity.ts'],
-  // dbName: env.prod.DBNAME,
+  dbName: env.prod.DBNAME,
   type: 'postgresql',
   // host: env.prod.HOST,
   // port: env.prod.PORT,
