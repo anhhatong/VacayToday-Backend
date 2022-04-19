@@ -20,7 +20,8 @@ const config = {
   highlighter: new SqlHighlighter(),
   debug: true,
   logger: logger.log.bind(logger),
-  url: 'postgres://rloftexmrgvvwb:459f8596bc0090b2ec09a5e2dddac676a5e757e96e2523ae3ef0f849e67e33bf@ec2-52-54-212-232.compute-1.amazonaws.com:5432/d2o11c8cu6a030',
+  clientUrl:
+    'postgres://rloftexmrgvvwb:459f8596bc0090b2ec09a5e2dddac676a5e757e96e2523ae3ef0f849e67e33bf@ec2-52-54-212-232.compute-1.amazonaws.com:5432/d2o11c8cu6a030',
   // user: 'rloftexmrgvvwb',
   // password: env.prod.DBPASSWORD,
   metadataProvider: TsMorphMetadataProvider,
