@@ -33,7 +33,7 @@ const config = {
     path: './migrations', // path to the folder with migrations
     pattern: /^[\w-]+\d+\.ts$/, // regex pattern for the migration files
     transactional: true, // wrap each migration in a transaction
-    disableForeignKeys: true, // wrap statements with `set foreign_key_checks = 0` or equivalent
+    disableForeignKeys: false, // wrap statements with `set foreign_key_checks = 0` or equivalent
     allOrNothing: true, // wrap all migrations in master transaction
     dropTables: true, // allow to disable table dropping
     safe: true, // allow to disable table and column dropping
