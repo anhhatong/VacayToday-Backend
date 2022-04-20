@@ -3,11 +3,11 @@
  * receiving requests and sending responses to client
  */
 import { Controller, Post, Get, Body, Param } from '@nestjs/common';
+import { ApiOkResponse } from '@nestjs/swagger';
 
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
-import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller('user')
 export class UserController {
@@ -22,7 +22,13 @@ export class UserController {
 
   @Get(':userId')
   @ApiOkResponse({ status: 200, type: User })
-  async getUser(@Param('userId') userId: number): Promise<User> {
-    return await this.userService.getUser(userId);
+  async getUserById(@Param('userId') userId: number): Promise<User> {
+    return await this.userService.getUserById(userId);
+  }
+
+  @Get(':username')
+  @ApiOkResponse({ status: 200, type: User })
+  async getUserByUsername(@Param('username') username: string): Promise<User> {
+    return await this.userService.getUserByUsername(username);
   }
 }
