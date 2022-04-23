@@ -48,7 +48,41 @@ export class TripService {
       {
         users: { user_id: userId },
       },
-      { populate: ['users'] },
+      {
+        fields: [
+          'trip_id',
+          'name',
+          'description',
+          'start_on',
+          'end_on',
+          'num_people',
+          'likes',
+          'thumb_url',
+          { users: ['username', 'profile_image'] },
+        ],
+      },
+    );
+    return trips;
+  }
+
+  async getExploreTrips(): Promise<Loaded<Trip, 'users'>[]> {
+    const trips: Loaded<Trip, 'users'>[] = await this.tripRepository.find(
+      {
+        is_published: true,
+      },
+      {
+        fields: [
+          'trip_id',
+          'name',
+          'description',
+          'start_on',
+          'end_on',
+          'num_people',
+          'likes',
+          'thumb_url',
+          { users: ['username', 'profile_image'] },
+        ],
+      },
     );
     return trips;
   }

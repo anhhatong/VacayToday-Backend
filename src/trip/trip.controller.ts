@@ -28,4 +28,10 @@ export class TripController {
   ): Promise<Loaded<Trip, 'users'>[]> {
     return await this.tripService.getTripsByUserId(userId);
   }
+
+  @Get()
+  @ApiOkResponse({ status: 200, type: [Trip] })
+  async getExploreTrips(): Promise<Loaded<Trip, 'users'>[]> {
+    return await this.tripService.getExploreTrips();
+  }
 }
