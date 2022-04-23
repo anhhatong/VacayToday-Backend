@@ -11,6 +11,7 @@ import { CreateTripDto } from './dtos/create-trip.dto';
 import { TripRepository } from './trip.repository';
 import { UserRepository } from 'src/user/user.repository';
 import { User } from 'src/user/entities/user.entity';
+import { Loaded } from '@mikro-orm/core';
 
 @Injectable()
 export class TripService {
@@ -39,5 +40,16 @@ export class TripService {
     user.trips.add(trip);
     await this.tripRepository.persistAndFlush(trip);
     return trip;
+  }
+
+  async getTripsByUserId(userId: number): Promise<Loaded<Trip, 'users'>[]> {
+    // get all trips in user_trip table that has userId
+    const trips: Loaded<Trip, 'users'>[] = await this.tripRepository.find(
+      {
+        users: { user_id: userId },
+      },
+      { populate: ['users'] },
+    );
+    return trips;
   }
 }
