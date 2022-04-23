@@ -1,5 +1,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Property, Entity, Unique, PrimaryKey } from '@mikro-orm/core';
+import {
+  Property,
+  Entity,
+  Unique,
+  PrimaryKey,
+  ManyToMany,
+  Collection,
+} from '@mikro-orm/core';
+import { Trip } from '../../trip/entities/trip.entity';
 
 @Entity()
 export class User {
@@ -21,6 +29,9 @@ export class User {
 
   @Property({ onUpdate: () => new Date() })
   updatedAt = new Date();
+
+  @ManyToMany(() => Trip, 'users', { owner: true })
+  trips = new Collection<Trip>(this);
 
   constructor(username: string, password: string, profile_image: string) {
     this.username = username;

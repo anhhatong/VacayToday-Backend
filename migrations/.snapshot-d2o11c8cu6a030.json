@@ -87,6 +87,183 @@
       ],
       "checks": [],
       "foreignKeys": {}
+    },
+    {
+      "columns": {
+        "trip_id": {
+          "name": "trip_id",
+          "type": "serial",
+          "unsigned": true,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "start_on": {
+          "name": "start_on",
+          "type": "timestamptz(0)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "end_on": {
+          "name": "end_on",
+          "type": "timestamptz(0)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "num_people": {
+          "name": "num_people",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "likes": {
+          "name": "likes",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "is_published": {
+          "name": "is_published",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "boolean"
+        },
+        "created_on": {
+          "name": "created_on",
+          "type": "timestamptz(0)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "thumb_url": {
+          "name": "thumb_url",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        }
+      },
+      "name": "trip",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "trip_pkey",
+          "columnNames": [
+            "trip_id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {}
+    },
+    {
+      "columns": {
+        "user_user_id": {
+          "name": "user_user_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "trip_trip_id": {
+          "name": "trip_trip_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        }
+      },
+      "name": "user_trips",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "user_trips_pkey",
+          "columnNames": [
+            "user_user_id",
+            "trip_trip_id"
+          ],
+          "composite": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "user_trips_user_user_id_foreign": {
+          "constraintName": "user_trips_user_user_id_foreign",
+          "columnNames": [
+            "user_user_id"
+          ],
+          "localTableName": "public.user_trips",
+          "referencedColumnNames": [
+            "user_id"
+          ],
+          "referencedTableName": "public.user",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "user_trips_trip_trip_id_foreign": {
+          "constraintName": "user_trips_trip_trip_id_foreign",
+          "columnNames": [
+            "trip_trip_id"
+          ],
+          "localTableName": "public.user_trips",
+          "referencedColumnNames": [
+            "trip_id"
+          ],
+          "referencedTableName": "public.trip",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
     }
   ]
 }
