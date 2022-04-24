@@ -5,8 +5,10 @@ import {
   PrimaryKey,
   ManyToMany,
   Collection,
+  OneToMany,
 } from '@mikro-orm/core';
 import { User } from '../../user/entities/user.entity';
+import { Activity } from './activity.entity';
 
 @Entity()
 export class Trip {
@@ -16,7 +18,7 @@ export class Trip {
   @Property()
   name: string;
 
-  @Property()
+  @Property({ nullable: true })
   description: string;
 
   @Property()
@@ -25,10 +27,10 @@ export class Trip {
   @Property()
   end_on: Date;
 
-  @Property()
+  @Property({ nullable: true })
   num_people: number;
 
-  @Property()
+  @Property({ nullable: true })
   likes: number;
 
   @Property()
@@ -37,13 +39,14 @@ export class Trip {
   @Property()
   created_on = new Date();
 
-  // TODO: TRIP_ZIP reference
-
-  @Property()
+  @Property({ nullable: true })
   thumb_url: string;
 
   @ManyToMany(() => User, (user) => user.trips)
   users = new Collection<User>(this);
+
+  @OneToMany(() => Activity, (activity) => activity.trip)
+  activities = new Collection<Activity>(this);
 
   constructor(
     name: string,

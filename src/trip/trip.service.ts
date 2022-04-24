@@ -8,10 +8,18 @@ import { InjectRepository } from '@mikro-orm/nestjs';
 
 import { Trip } from './entities/trip.entity';
 import { CreateTripDto } from './dtos/create-trip.dto';
-import { TripRepository } from './trip.repository';
+import { CreateActivityDto } from './dtos/create-activity.dto';
+import {
+  ActivityRepository,
+  TripRepository,
+  CategoryRepository,
+} from './trip.repository';
 import { UserRepository } from 'src/user/user.repository';
 import { User } from 'src/user/entities/user.entity';
 import { Loaded } from '@mikro-orm/core';
+import { Activity } from './entities/activity.entity';
+import { Category } from './entities/category.entity';
+import { CreateCategoryDto } from './dtos/create-category.dto';
 
 @Injectable()
 export class TripService {
@@ -20,9 +28,13 @@ export class TripService {
     private readonly tripRepository: TripRepository,
     @InjectRepository(User)
     private readonly userRepository: UserRepository,
+    @InjectRepository(Activity)
+    private readonly activityRepository: ActivityRepository,
+    @InjectRepository(Category)
+    private readonly categoryRepository: CategoryRepository,
   ) {}
 
-  async create(createTripDto: CreateTripDto): Promise<Trip> {
+  async createTrip(createTripDto: CreateTripDto): Promise<Trip> {
     const user: User = await this.userRepository.findOne({
       user_id: createTripDto.created_by,
     });
@@ -42,6 +54,57 @@ export class TripService {
     return trip;
   }
 
+  async createActivity(
+    tripId: number,
+    catId: number,
+    createActivityDto: CreateActivityDto,
+  ): Promise<Activity> {
+    const trip: Trip = await this.tripRepository.findOne({ trip_id: tripId });
+    const cat: Category = await this.categoryRepository.findOne({
+      cat_id: catId,
+    });
+    const activity = new Activity(
+      createActivityDto.act_title,
+      createActivityDto.act_description,
+      createActivityDto.location_name,
+      createActivityDto.location_address,
+      createActivityDto.location_contact,
+      createActivityDto.act_from,
+      createActivityDto.act_to,
+      createActivityDto.is_booked,
+      createActivityDto.trans_mode,
+      createActivityDto.rating,
+      createActivityDto.recommendation,
+      createActivityDto.thumb_url,
+      createActivityDto.url,
+      createActivityDto.note,
+    );
+    activity.trip = trip;
+    trip.activities.add(activity);
+    activity.category = cat;
+    cat.activities.add(activity);
+    await this.activityRepository.persistAndFlush(activity);
+    return activity;
+  }
+
+  async getActivitiesByTripId(tripId: number): Promise<Loaded<Activity>[]> {
+    return await this.activityRepository.find({
+      trip: { trip_id: tripId },
+    });
+  }
+
+  async createCategory(
+    createCategoryDto: CreateCategoryDto,
+  ): Promise<Category> {
+    const category = new Category(createCategoryDto.category);
+    await this.categoryRepository.persistAndFlush(category);
+    return category;
+  }
+
+  async getCategories(): Promise<Category[]> {
+    return await this.categoryRepository.findAll();
+  }
+
   async getTripsByUserId(userId: number): Promise<Loaded<Trip, 'users'>[]> {
     // get all trips in user_trip table that has userId
     const trips: Loaded<Trip, 'users'>[] = await this.tripRepository.find(
@@ -58,6 +121,7 @@ export class TripService {
           'num_people',
           'likes',
           'thumb_url',
+          'is_published',
           { users: ['username', 'profile_image'] },
         ],
       },
@@ -80,6 +144,7 @@ export class TripService {
           'num_people',
           'likes',
           'thumb_url',
+          'is_published',
           { users: ['username', 'profile_image'] },
         ],
       },
