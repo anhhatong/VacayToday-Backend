@@ -40,6 +40,16 @@ export class TripController {
     );
   }
 
+  // This must go before getActivitiesByTripId
+  @Get('/activities/:tripId&:catId')
+  @ApiOkResponse({ status: 200, type: [Activity] })
+  async getActivitiesByCategory(
+    @Param('tripId') tripId: number,
+    @Param('catId') catId: number,
+  ): Promise<Loaded<Activity>[]> {
+    return await this.tripService.getActivitiesByCategory(tripId, catId);
+  }
+
   @Get('/activities/:tripId')
   @ApiOkResponse({ status: 200, type: [Activity] })
   async getActivitiesByTripId(

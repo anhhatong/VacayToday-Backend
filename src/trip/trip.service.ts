@@ -93,6 +93,20 @@ export class TripService {
     });
   }
 
+  async getActivitiesByCategory(
+    tripId: number,
+    catId: number,
+  ): Promise<Loaded<Activity>[]> {
+    return await this.activityRepository.find({
+      $and: [
+        {
+          trip: { trip_id: tripId },
+        },
+        { category: { cat_id: catId } },
+      ],
+    });
+  }
+
   async getActivityByActId(actId: number): Promise<Activity> {
     return await this.activityRepository.findOne(
       {
