@@ -93,6 +93,15 @@ export class TripService {
     });
   }
 
+  async getActivityByActId(actId: number): Promise<Activity> {
+    return await this.activityRepository.findOne(
+      {
+        act_id: actId,
+      },
+      { populate: ['category'] },
+    );
+  }
+
   async createCategory(
     createCategoryDto: CreateCategoryDto,
   ): Promise<Category> {
