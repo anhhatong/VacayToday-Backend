@@ -13,20 +13,20 @@ import { User } from './entities/user.entity';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
+  @Post('signup')
   @ApiOkResponse({ status: 201, type: User })
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
     // call the database to perform CRUD
     return await this.userService.create(createUserDto);
   }
 
-  @Get(':userId')
+  @Get('getbyid/:userId')
   @ApiOkResponse({ status: 200, type: User })
   async getUserById(@Param('userId') userId: number): Promise<User> {
     return await this.userService.getUserById(userId);
   }
 
-  @Get(':username')
+  @Get('getbyusername/:username')
   @ApiOkResponse({ status: 200, type: User })
   async getUserByUsername(@Param('username') username: string): Promise<User> {
     return await this.userService.getUserByUsername(username);

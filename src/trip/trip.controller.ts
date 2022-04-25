@@ -18,14 +18,14 @@ import { Category } from './entities/category.entity';
 export class TripController {
   constructor(private readonly tripService: TripService) {}
 
-  @Post('/mytrips')
+  @Post('/mytrips/create')
   @ApiOkResponse({ status: 201, type: Trip })
   async createTrip(@Body() createTripDto: CreateTripDto): Promise<Trip> {
     // call the database to perform CRUD
     return await this.tripService.createTrip(createTripDto);
   }
 
-  @Post('/activity/:tripId&:catId')
+  @Post('/activity/create/:tripId&:catId')
   @ApiOkResponse({ status: 201, type: Activity })
   async createActivity(
     @Param('tripId') tripId: number,
@@ -41,7 +41,7 @@ export class TripController {
   }
 
   // This must go before getActivitiesByTripId
-  @Get('/activities/:tripId&:catId')
+  @Get('/activities/get/:tripId&:catId')
   @ApiOkResponse({ status: 200, type: [Activity] })
   async getActivitiesByCategory(
     @Param('tripId') tripId: number,
@@ -50,7 +50,7 @@ export class TripController {
     return await this.tripService.getActivitiesByCategory(tripId, catId);
   }
 
-  @Get('/activities/:tripId')
+  @Get('/activities/get/:tripId')
   @ApiOkResponse({ status: 200, type: [Activity] })
   async getActivitiesByTripId(
     @Param('tripId') tripId: number,
@@ -58,13 +58,13 @@ export class TripController {
     return await this.tripService.getActivitiesByTripId(tripId);
   }
 
-  @Get('/activity/:actId')
+  @Get('/activity/get/:actId')
   @ApiOkResponse({ status: 200, type: Activity })
   async getActivityByActId(@Param('actId') actId: number): Promise<Activity> {
     return await this.tripService.getActivityByActId(actId);
   }
 
-  @Post('/category')
+  @Post('/category/create')
   @ApiOkResponse({ status: 201, type: Category })
   async createCategory(
     @Body() createCategoryDto: CreateCategoryDto,
@@ -73,14 +73,14 @@ export class TripController {
     return await this.tripService.createCategory(createCategoryDto);
   }
 
-  @Get('/categories')
+  @Get('/categories/get')
   @ApiOkResponse({ status: 200, type: [Category] })
   async getCategories(): Promise<Category[]> {
     // call the database to perform CRUD
     return await this.tripService.getCategories();
   }
 
-  @Get('/mytrips/:userId')
+  @Get('/mytrips/get/:userId')
   @ApiOkResponse({ status: 200, type: [Trip] })
   async getTripsByUserId(
     @Param('userId') userId: number,
@@ -88,7 +88,7 @@ export class TripController {
     return await this.tripService.getTripsByUserId(userId);
   }
 
-  @Get('explores')
+  @Get('explores/get')
   @ApiOkResponse({ status: 200, type: [Trip] })
   async getExploreTrips(): Promise<Loaded<Trip, 'users'>[]> {
     return await this.tripService.getExploreTrips();
