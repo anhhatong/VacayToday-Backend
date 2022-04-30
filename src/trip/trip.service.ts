@@ -87,6 +87,31 @@ export class TripService {
     return activity;
   }
 
+  async getDatesByTripId(tripId: number): Promise<string[]> {
+    const allActivities: Activity[] = await this.activityRepository.find({
+      trip: { trip_id: tripId },
+    });
+    const dateSet = new Set();
+    // get unique activity datetimes
+    allActivities.map((act: Activity) => {
+      const date: Date = new Date(act.act_from);
+      dateSet.add(
+        date.getUTCFullYear() +
+          '-' +
+          (date.getUTCMonth() + 1) +
+          '-' +
+          date.getUTCDate(),
+      );
+    });
+    const dates = [];
+    // populate unique datetime strings to array form
+    for (const date of dateSet) {
+      dates.push(date);
+    }
+    dates.sort();
+    return dates;
+  }
+
   // get activities by tripId and default date
   async getActivitiesByTripId(tripId: number): Promise<Loaded<Activity>[]> {
     let date = new Date();

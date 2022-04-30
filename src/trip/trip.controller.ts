@@ -67,6 +67,12 @@ export class TripController {
     return await this.tripService.getActivitiesByTripId(tripId);
   }
 
+  @Get('/activities/getdates/:tripId')
+  @ApiOkResponse({ status: 200, type: [String] })
+  async getDatesByTripId(@Param('tripId') tripId: number): Promise<string[]> {
+    return await this.tripService.getDatesByTripId(tripId);
+  }
+
   @Get('/activity/get/:actId')
   @ApiOkResponse({ status: 200, type: Activity })
   async getActivityByActId(@Param('actId') actId: number): Promise<Activity> {
