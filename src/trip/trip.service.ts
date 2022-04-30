@@ -16,7 +16,7 @@ import {
 } from './trip.repository';
 import { UserRepository } from 'src/user/user.repository';
 import { User } from 'src/user/entities/user.entity';
-import { Loaded } from '@mikro-orm/core';
+import { Loaded, QueryOrder } from '@mikro-orm/core';
 import { Activity } from './entities/activity.entity';
 import { Category } from './entities/category.entity';
 import { CreateCategoryDto } from './dtos/create-category.dto';
@@ -87,24 +87,76 @@ export class TripService {
     return activity;
   }
 
+  // get activities by tripId and default date
   async getActivitiesByTripId(tripId: number): Promise<Loaded<Activity>[]> {
-    return await this.activityRepository.find({
-      trip: { trip_id: tripId },
-    });
+    let date = new Date('October 22, 2013');
+    // activities after today
+    const after = await this.activityRepository.find(
+      {
+        $and: [{ trip: { trip_id: tripId } }, { act_from: { $gte: date } }],
+      },
+      { orderBy: { act_from: QueryOrder.ASC } },
+    );
+    // activities before today
+    const before = await this.activityRepository.find(
+      {
+        $and: [{ trip: { trip_id: tripId } }, { act_from: { $lt: date } }],
+      },
+      { orderBy: { act_from: QueryOrder.ASC } },
+    );
+
+    // trip already done, get the first day of trip
+    if (after.length == 0 && before.length > 0) {
+      date = before[0].act_from;
+    }
+    // trip not happened yet, get the first day of trip
+    // trip happening, get today or the following closest day
+    else if (after.length != 0) {
+      date = after[0].act_from;
+    }
+
+    return await this.getActivitiesByTripIdAndDate(tripId, date.toJSON());
+  }
+
+  // get activities by tripId and specific date
+  async getActivitiesByTripIdAndDate(
+    tripId: number,
+    date: string,
+  ): Promise<Loaded<Activity>[]> {
+    const curDay = new Date(date);
+    curDay.setUTCHours(0, 0, 0, 0);
+    const nextDay = new Date(curDay);
+    nextDay.setDate(curDay.getDate() + 1);
+    /*
+     * get activities between the beginning of current day
+     * and the beginning of next day
+     */
+    return await this.activityRepository.find(
+      {
+        $and: [
+          { trip: { trip_id: tripId } },
+          { act_from: { $gte: curDay, $lt: nextDay } },
+        ],
+      },
+      { orderBy: { act_from: QueryOrder.ASC } },
+    );
   }
 
   async getActivitiesByCategory(
     tripId: number,
     catId: number,
   ): Promise<Loaded<Activity>[]> {
-    return await this.activityRepository.find({
-      $and: [
-        {
-          trip: { trip_id: tripId },
-        },
-        { category: { cat_id: catId } },
-      ],
-    });
+    return await this.activityRepository.find(
+      {
+        $and: [
+          {
+            trip: { trip_id: tripId },
+          },
+          { category: { cat_id: catId } },
+        ],
+      },
+      { orderBy: { act_from: QueryOrder.ASC } },
+    );
   }
 
   async getActivityByActId(actId: number): Promise<Activity> {

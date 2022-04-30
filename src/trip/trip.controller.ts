@@ -50,6 +50,15 @@ export class TripController {
     return await this.tripService.getActivitiesByCategory(tripId, catId);
   }
 
+  @Get('/activities/getbydate/:tripId&:date')
+  @ApiOkResponse({ status: 200, type: [Activity] })
+  async getActivitiesByTripIdAndDate(
+    @Param('tripId') tripId: number,
+    @Param('date') date: string,
+  ): Promise<Loaded<Activity>[]> {
+    return await this.tripService.getActivitiesByTripIdAndDate(tripId, date);
+  }
+
   @Get('/activities/get/:tripId')
   @ApiOkResponse({ status: 200, type: [Activity] })
   async getActivitiesByTripId(
