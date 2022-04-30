@@ -89,7 +89,7 @@ export class TripService {
 
   // get activities by tripId and default date
   async getActivitiesByTripId(tripId: number): Promise<Loaded<Activity>[]> {
-    let date = new Date('October 22, 2013');
+    let date = new Date();
     // activities after today
     const after = await this.activityRepository.find(
       {
