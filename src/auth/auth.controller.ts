@@ -6,6 +6,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req) {
-    return req.user;
+    const res = { ...req.user, statusCode: 200 };
+    return res;
   }
 }
