@@ -33,6 +33,8 @@ export class User {
   @ManyToMany(() => Trip, 'users', { owner: true })
   trips = new Collection<Trip>(this);
 
+  statusCode: number;
+
   constructor(username: string, password: string, profile_image: string) {
     this.username = username;
     this.password = password;
