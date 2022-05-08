@@ -227,6 +227,15 @@
           "nullable": true,
           "mappedType": "string"
         },
+        "location_to": {
+          "name": "location_to",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        },
         "act_from": {
           "name": "act_from",
           "type": "timestamptz(0)",
@@ -291,6 +300,15 @@
           "primary": false,
           "nullable": true,
           "mappedType": "string"
+        },
+        "expense": {
+          "name": "expense",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
         },
         "url": {
           "name": "url",

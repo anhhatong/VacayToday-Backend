@@ -84,6 +84,7 @@ export class TripService {
       createActivityDto.location_name,
       createActivityDto.location_address,
       createActivityDto.location_contact,
+      createActivityDto.location_to,
       createActivityDto.act_from,
       createActivityDto.act_to,
       createActivityDto.is_booked,
@@ -92,6 +93,7 @@ export class TripService {
       createActivityDto.recommendation,
       createActivityDto.thumb_url,
       createActivityDto.url,
+      createActivityDto.expense,
       createActivityDto.note,
     );
     activity.trip = trip;

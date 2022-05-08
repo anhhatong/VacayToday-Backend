@@ -33,6 +33,10 @@ export class CreateActivityDto {
   location_contact: string;
 
   @IsString()
+  @IsOptional()
+  location_to: string;
+
+  @IsString()
   @IsNotEmpty()
   act_from: string;
 
@@ -65,6 +69,11 @@ export class CreateActivityDto {
   @IsString()
   @IsOptional()
   url: string;
+
+  @IsInt()
+  @Min(0)
+  @IsOptional()
+  expense: number;
 
   @IsString()
   @IsOptional()

@@ -29,6 +29,9 @@ export class Activity {
   @Property({ nullable: true })
   location_contact: string;
 
+  @Property({ nullable: true })
+  location_to: string;
+
   @Property()
   act_from: Date;
 
@@ -51,6 +54,9 @@ export class Activity {
   thumb_url: string;
 
   @Property({ nullable: true })
+  expense: number;
+
+  @Property({ nullable: true })
   url: string;
 
   @Property({ nullable: true })
@@ -62,6 +68,7 @@ export class Activity {
     location_name: string,
     location_address: string,
     location_contact: string,
+    location_to: string,
     act_from: string,
     act_to: string,
     is_booked: boolean,
@@ -70,6 +77,7 @@ export class Activity {
     recommendation: string,
     thumb_url: string,
     url: string,
+    expense: number,
     note: string,
   ) {
     this.act_title = act_title;
@@ -77,6 +85,7 @@ export class Activity {
     this.location_name = location_name;
     this.location_address = location_address;
     this.location_contact = location_contact;
+    this.location_to = location_to;
     this.act_from = new Date(act_from);
     this.act_to = new Date(act_to);
     this.is_booked = is_booked;
@@ -85,6 +94,7 @@ export class Activity {
     this.recommendation = recommendation;
     this.thumb_url = thumb_url;
     this.url = url;
+    this.expense = expense;
     this.note = note;
   }
 }
