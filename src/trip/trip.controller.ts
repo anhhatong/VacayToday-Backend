@@ -2,7 +2,7 @@
  * File that handles all the APIs related to user, particularly
  * receiving requests and sending responses to client
  */
-import { Controller, Post, Body, Get, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Patch } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 
 import { CreateTripDto } from './dtos/create-trip.dto';
@@ -13,6 +13,7 @@ import { Trip } from './entities/trip.entity';
 import { Loaded } from '@mikro-orm/core';
 import { Activity } from './entities/activity.entity';
 import { Category } from './entities/category.entity';
+import { UpdateTripDto } from './dtos/update-trip.dto';
 
 @Controller('trip')
 export class TripController {
@@ -23,6 +24,15 @@ export class TripController {
   async createTrip(@Body() createTripDto: CreateTripDto): Promise<Trip> {
     // call the database to perform CRUD
     return await this.tripService.createTrip(createTripDto);
+  }
+
+  @Patch('/mytrips/update/:tripId')
+  @ApiOkResponse({ status: 200, type: Trip })
+  async updateTrip(
+    @Param('tripId') tripId: number,
+    @Body() updateTripDto: UpdateTripDto,
+  ): Promise<Trip> {
+    return await this.tripService.updateTrip(tripId, updateTripDto);
   }
 
   @Post('/activity/create/:tripId&:catId')

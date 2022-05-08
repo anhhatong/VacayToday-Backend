@@ -20,6 +20,7 @@ import { Loaded, QueryOrder } from '@mikro-orm/core';
 import { Activity } from './entities/activity.entity';
 import { Category } from './entities/category.entity';
 import { CreateCategoryDto } from './dtos/create-category.dto';
+import { UpdateTripDto } from './dtos/update-trip.dto';
 
 @Injectable()
 export class TripService {
@@ -51,6 +52,20 @@ export class TripService {
     );
     user.trips.add(trip);
     await this.tripRepository.persistAndFlush(trip);
+    return trip;
+  }
+
+  async updateTrip(
+    tripId: number,
+    updateTripDto: UpdateTripDto,
+  ): Promise<Trip> {
+    const trip: Trip = await this.tripRepository.findOne({
+      trip_id: tripId,
+    });
+    for (const [key, value] of Object.entries(updateTripDto)) {
+      trip[key] = value;
+    }
+    await this.tripRepository.flush();
     return trip;
   }
 
