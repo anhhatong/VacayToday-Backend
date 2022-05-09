@@ -253,7 +253,6 @@ export class TripService {
           'is_published',
           { users: ['username', 'profile_image'] },
         ],
-        orderBy: { start_on: QueryOrder.DESC },
       },
     );
     return trips;
