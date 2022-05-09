@@ -254,6 +254,7 @@ export class TripService {
           'is_published',
           { users: ['username', 'profile_image'] },
         ],
+        orderBy: { created_on: QueryOrder.DESC }
       },
     );
     return trips;
@@ -277,6 +278,7 @@ export class TripService {
           'is_published',
           { users: ['username', 'profile_image'] },
         ],
+        orderBy: { created_on: QueryOrder.DESC }
       },
     );
     return trips;
