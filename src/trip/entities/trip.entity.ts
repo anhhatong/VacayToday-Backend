@@ -21,16 +21,16 @@ export class Trip {
   @Property({ nullable: true })
   description: string;
 
-  @Property()
+  @Property({ nullable: true })
   start_on: Date;
 
-  @Property()
+  @Property({ nullable: true })
   end_on: Date;
 
-  @Property({ nullable: true })
+  @Property()
   num_people: number;
 
-  @Property({ nullable: true })
+  @Property()
   likes: number;
 
   @Property()
@@ -51,8 +51,6 @@ export class Trip {
   constructor(
     name: string,
     description: string,
-    start_on: string,
-    end_on: string,
     num_people: number,
     likes: number,
     is_published: boolean,
@@ -61,8 +59,8 @@ export class Trip {
   ) {
     this.name = name;
     this.description = description;
-    this.start_on = new Date(start_on);
-    this.end_on = new Date(end_on);
+    this.start_on = null;
+    this.end_on = null;
     this.num_people = num_people;
     this.likes = likes;
     this.is_published = is_published;

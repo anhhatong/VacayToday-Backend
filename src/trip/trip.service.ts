@@ -42,8 +42,6 @@ export class TripService {
     const trip = new Trip(
       createTripDto.name,
       createTripDto.description,
-      createTripDto.start_on,
-      createTripDto.end_on,
       createTripDto.num_people,
       createTripDto.likes,
       createTripDto.is_published,
