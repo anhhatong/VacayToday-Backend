@@ -105,6 +105,14 @@ export class TripController {
     return await this.tripService.getCategories();
   }
 
+  @Get('/mytrip/get/:tripId')
+  @ApiOkResponse({ status: 200, type: [Trip] })
+  async getTripByTripId(
+    @Param('tripId') tripId: number,
+  ): Promise<Loaded<Trip, 'users'>> {
+    return await this.tripService.getTripByTripId(tripId);
+  }
+
   @Get('/mytrips/get/:userId')
   @ApiOkResponse({ status: 200, type: [Trip] })
   async getTripsByUserId(

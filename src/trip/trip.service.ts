@@ -235,6 +235,26 @@ export class TripService {
     return await this.categoryRepository.findAll();
   }
 
+  async getTripByTripId(tripId: number): Promise<Loaded<Trip, 'users'>> {
+    return await this.tripRepository.findOne(
+      { trip_id: tripId },
+      {
+        fields: [
+          'trip_id',
+          'name',
+          'description',
+          'start_on',
+          'end_on',
+          'num_people',
+          'likes',
+          'thumb_url',
+          'is_published',
+          { users: ['username', 'profile_image'] },
+        ],
+      },
+    );
+  }
+
   async getTripsByUserId(userId: number): Promise<Loaded<Trip, 'users'>[]> {
     // get all trips in user_trip table that has userId
     const trips: Loaded<Trip, 'users'>[] = await this.tripRepository.find(
@@ -254,7 +274,7 @@ export class TripService {
           'is_published',
           { users: ['username', 'profile_image'] },
         ],
-        orderBy: { created_on: QueryOrder.DESC }
+        orderBy: { created_on: QueryOrder.DESC },
       },
     );
     return trips;
@@ -278,7 +298,7 @@ export class TripService {
           'is_published',
           { users: ['username', 'profile_image'] },
         ],
-        orderBy: { created_on: QueryOrder.DESC }
+        orderBy: { created_on: QueryOrder.DESC },
       },
     );
     return trips;
