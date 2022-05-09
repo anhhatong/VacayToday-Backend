@@ -104,10 +104,13 @@ export class TripService {
     const actEnd = activity.act_to;
     const bodyUpdate = new UpdateTripDto();
 
-    if (trip.start_on.getTime() > actStart.getTime()) {
+    if (
+      trip.start_on === null ||
+      trip.start_on.getTime() > actStart.getTime()
+    ) {
       bodyUpdate['start_on'] = actStart;
     }
-    if (trip.end_on.getTime() < actEnd.getTime()) {
+    if (trip.start_on === null || trip.start_on.getTime() < actEnd.getTime()) {
       bodyUpdate['end_on'] = actEnd;
     }
     await this.updateTrip(tripId, bodyUpdate);
